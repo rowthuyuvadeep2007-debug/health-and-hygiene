@@ -1,239 +1,37 @@
-/* =====================================================
-   HEALTH & HYGIENE CSP PROJECT
-   JAVASCRIPT
-===================================================== */
-
-
-/* ================= QUIZ ================= */
-
-function checkQuiz() {
-
-    let score = 0;
-
-    const totalQuestions = 10;
-
-    let answeredQuestions = 0;
-
-
-    for (let i = 1; i <= totalQuestions; i++) {
-
-        const selected = document.querySelector(
-            `input[name="q${i}"]:checked`
-        );
-
-
-        if (selected) {
-
-            answeredQuestions++;
-
-
-            if (selected.value === "correct") {
-
-                score++;
-
-            }
-
-        }
-
-    }
-
-
-    const result =
-        document.getElementById("result");
-
-
-    /* Check whether all questions are answered */
-
-    if (answeredQuestions < totalQuestions) {
-
-        result.innerHTML =
-            "⚠️ Please answer all 10 questions.";
-
-        result.style.color = "#d97706";
-
-        result.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
-
-        return;
-    }
-
-
-    /* Display result */
-
-    if (score === 10) {
-
-        result.innerHTML =
-            "🏆 Outstanding! You scored 10/10.";
-
-    }
-
-    else if (score >= 8) {
-
-        result.innerHTML =
-            "🎉 Excellent! You scored "
-            + score +
-            "/10.";
-
-    }
-
-    else if (score >= 5) {
-
-        result.innerHTML =
-            "👏 Good job! You scored "
-            + score +
-            "/10.";
-
-    }
-
-    else {
-
-        result.innerHTML =
-            "📚 Keep learning! You scored "
-            + score +
-            "/10.";
-
-    }
-
-
-    result.style.color = "#087f8c";
-
-
-    result.scrollIntoView({
-
-        behavior: "smooth",
-
-        block: "center"
-
-    });
-
+let currentLang = localStorage.getItem("healthLang") || "en";
+function applyLanguage(){
+  document.documentElement.lang=currentLang;
+  document.querySelectorAll("[data-en][data-te]").forEach(el=>{
+    el.innerHTML=currentLang==="te"?el.dataset.te:el.dataset.en;
+  });
+  const btn=document.getElementById("langBtn");
+  if(btn) btn.textContent=currentLang==="te"?"English":"తెలుగు";
+  localStorage.setItem("healthLang",currentLang);
 }
+function toggleLanguage(){currentLang=currentLang==="en"?"te":"en";applyLanguage();}
+function toggleMenu(){const n=document.getElementById("navMenu");if(n)n.classList.toggle("active");}
+document.addEventListener("DOMContentLoaded",()=>{
+  applyLanguage();
+  document.querySelectorAll("#navMenu a").forEach(a=>a.addEventListener("click",()=>document.getElementById("navMenu")?.classList.remove("active")));
+  const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible")}),{threshold:.12});
+  document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 
-
-
-/* ================= RESET QUIZ ================= */
-
-function resetQuiz() {
-
-
-    /* Clear all selected answers */
-
-    document
-        .querySelectorAll(
-            '#quiz input[type="radio"]'
-        )
-        .forEach(function(input) {
-
-            input.checked = false;
-
-        });
-
-
-    /* Clear result */
-
-    const result =
-        document.getElementById("result");
-
-
-    result.innerHTML = "";
-
-
-    /* Scroll to quiz */
-
-    document
-        .getElementById("quiz")
-        .scrollIntoView({
-
-            behavior: "smooth"
-
-        });
-
-}
-
-
-
-/* ================= MOBILE MENU ================= */
-
-function toggleMenu() {
-
-    const navMenu =
-        document.getElementById("navMenu");
-
-
-    navMenu.classList.toggle("active");
-
-}
-
-
-
-/* ================= CLOSE MOBILE MENU ================= */
-
-document
-    .querySelectorAll("#navMenu a")
-    .forEach(function(link) {
-
-
-        link.addEventListener(
-            "click",
-            function() {
-
-
-                document
-                    .getElementById("navMenu")
-                    .classList.remove("active");
-
-            }
-        );
-
-    });
-
-
-
-/* ================= FEEDBACK FORM ================= */
-
-document
-    .getElementById("feedbackForm")
-    .addEventListener(
-        "submit",
-        function(event) {
-
-
-            /* Prevent page refresh */
-
-            event.preventDefault();
-
-
-            const name =
-                document.getElementById("name").value;
-
-
-            const message =
-                document.getElementById(
-                    "feedbackMessage"
-                );
-
-
-            message.innerHTML =
-                "✅ Thank you, "
-                + name
-                + "! Your feedback has been submitted successfully.";
-
-
-            /* Clear form */
-
-            this.reset();
-
-
-            /* Scroll to message */
-
-            message.scrollIntoView({
-
-                behavior: "smooth",
-
-                block: "center"
-
-            });
-
-        }
-    );
+  const steps=[...document.querySelectorAll(".step")], hands=document.getElementById("washAnimation");
+  if(steps.length){
+    let step=0;
+    const labels={
+      en:["Soap + Water","Apply Soap","Rub Palms","Between Fingers","Nails + Thumbs","Rinse","Dry"],
+      te:["సబ్బు + నీరు","సబ్బు రాయండి","అరచేతులను రుద్దండి","వేళ్ల మధ్య","గోర్లు + బొటనవేళ్లు","కడగండి","ఆరబెట్టండి"]
+    };
+    function showStep(){
+      steps.forEach((s,i)=>s.classList.toggle("active",i===step));
+      hands.className="wash-animation step-"+step+" reveal visible";
+      document.getElementById("stepCounter").textContent=(step+1)+" / 7";
+      document.getElementById("washLabel").textContent=labels[currentLang][step];
+    }
+    document.getElementById("nextStep").onclick=()=>{step=(step+1)%7;showStep()};
+    document.getElementById("prevStep").onclick=()=>{step=(step+6)%7;showStep()};
+    steps.forEach((s,i)=>s.onclick=()=>{step=i;showStep()});
+    showStep();
+  }
+});
