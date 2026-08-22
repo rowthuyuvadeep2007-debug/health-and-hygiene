@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b8f87">
+  <title>Health & Hygiene Quiz</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="quiz.css">
+</head>
+<body class="quiz-page">
+  <div class="water-bg"><span></span><span></span><span></span></div>
+  <header class="navbar">
+    <a class="logo" href="index.html">🩺 Health<b>&</b>Hygiene</a>
+    <nav>
+      <a href="index.html" data-en="← Home" data-te="← హోమ్">← Home</a>
+      <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">తెలుగు</button>
+    </nav>
+  </header>
+  <main class="quiz-main">
+    <div class="quiz-head reveal">
+      <span class="hero-tag" data-en="🧠 KNOWLEDGE CHECK" data-te="🧠 జ్ఞాన పరీక్ష">🧠 KNOWLEDGE CHECK</span>
+      <h1 data-en="Health & Hygiene Quiz" data-te="ఆరోగ్యం & పరిశుభ్రత క్విజ్">Health & Hygiene Quiz</h1>
+      <p data-en="Choose the best answer for each question." data-te="ప్రతి ప్రశ్నకు సరైన సమాధానాన్ని ఎంచుకోండి.">Choose the best answer for each question.</p>
+    </div>
+    <div class="quiz-card reveal">
+      <div class="progress-row"><span id="progressText">Question 1 of 10</span><strong id="scoreLive">0/10</strong></div>
+      <div class="progress"><div id="progressBar"></div></div>
+      <div id="questionArea"></div>
+      <div class="quiz-nav">
+        <button class="btn secondary" id="prevBtn" data-en="← Previous" data-te="← ముందు">← Previous</button>
+        <button class="btn primary" id="nextBtn" data-en="Next →" data-te="తర్వాత →">Next →</button>
+      </div>
+    </div>
+    <div id="quizResult" class="result-card hidden">
+      <div class="result-icon" id="resultIcon">🏆</div>
+      <h2 id="resultTitle">Great job!</h2>
+      <div class="final-score" id="finalScore">10/10</div>
+      <p id="resultMessage">Keep practicing healthy habits.</p>
+      <div class="result-actions"><button class="btn primary" id="restartBtn">🔄 <span data-en="Try Again" data-te="మళ్లీ ప్రయత్నించండి">Try Again</span></button><a href="index.html" class="btn secondary" data-en="Back Home" data-te="హోమ్‌కు వెళ్లండి">Back Home</a></div>
+    </div>
+  </main>
+  <footer><div class="footer-logo">🩺 Health & Hygiene</div><p data-en="Learn • Practice • Stay Healthy" data-te="నేర్చుకోండి • ఆచరించండి • ఆరోగ్యంగా ఉండండి">Learn • Practice • Stay Healthy</p></footer>
+  <script src="script.js"></script>
+  <script src="quiz.js"></script>
+</body>
+</html>
